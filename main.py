@@ -117,7 +117,7 @@ class Game(Widget):
     def respawn(self):
         self.explosion = Image(
             source="source/explosion.gif",
-            id="Ex",
+            ids={"Ex": True},
             anim_delay=0,
             pos=(
                 self.spaceship.x - self.spaceship.width / 2.0,
@@ -145,7 +145,7 @@ class Game(Widget):
 
     def clean(self, dt):
         for child in self.children:
-            if child.id == "Ex":
+            if "Ex" in child.ids:
                 self.remove_widget(child)
 
     def update(self, dt):
@@ -154,7 +154,7 @@ class Game(Widget):
         # self.pressed_keys['spacebar'] = True
 
         for child in self.children:
-            if child.id == "Present":
+            if "Present" in child.ids:
                 child.update()
                 if distance(child.center, self.spaceship.center) < 100:
                     if self.spaceship.weapon == child.kind:
@@ -182,14 +182,14 @@ class Game(Widget):
                     text="Level {}".format(self.stage + 1),
                     pos=(size[0] / 2.0, size[1] / 2.0),
                     font_size=50,
-                    id="Level Label",
+                    ids={"Level Label": True},
                 )
             )
             Clock.schedule_once(self.new_level, 2)
 
         if not self.wait:
             for child in self.children:
-                if child.id == "Level Label":
+                if "Level Label" in child.ids:
                     self.remove_widget(child)
         self.level.update()
 
@@ -199,7 +199,7 @@ class Game(Widget):
             shot.update()
 
         for child in self.children:
-            if child.id == "Food":
+            if "Food" in child.ids:
                 child.velocity_y -= 1
                 child.update()
                 if distance(child.pos, self.spaceship.pos) < 100:
@@ -281,7 +281,7 @@ class Game(Widget):
                         self.remove_widget(shot)
                         self.spaceship.shots.remove(shot)
                         for child in self.children:
-                            if child.id == "Chicken":
+                            if "Chicken" in child.ids:
                                 child.hp -= shot.power
                                 if child.hp <= 0:
                                     self.remove_chicken(child)
