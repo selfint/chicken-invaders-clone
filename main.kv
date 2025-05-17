@@ -1,0 +1,229 @@
+<Egg>:
+    canvas:
+        Color:
+            rgba: 1, 1, 1, 1
+        Ellipse:
+            size: 50, 60
+            pos: self.pos
+            source: 'source/egg.png'
+
+<Present>:
+    canvas:
+        Color:
+            rgba: 1, 1, 1, 1
+        Rectangle:
+            size: 50, 50
+            pos: self.pos
+            source: self.source
+
+<Food>:
+    canvas:
+        PushMatrix
+        Rotate:
+            angle: self.angle
+            axis: 0, 0, 1
+            origin: self.center
+        Color:
+            rgba: 1, 1, 1, 1
+        Rectangle:
+            size: 80, 50
+            pos: self.pos
+            source: 'source/food.png'
+        PopMatrix
+
+<PowerUp>:
+    canvas:
+        Color:
+            rgba: 1, 1, 0.1, 0.01
+        Ellipse:
+            size: 75, 75
+            pos: self.pos[0] - 2.5, self.pos[1] - 2.5
+        Color:
+            rgba: 1, 1, 1, 1
+        Ellipse:
+            size: 70, 70
+            pos: self.pos
+            source: 'source/atom.png'
+
+<Weapon>:
+    canvas.before:
+        PushMatrix
+        Rotate:
+            angle: self.angle
+            axis: 0, 0, 1
+            origin: self.center
+
+    canvas:
+        Color:
+            rgba: 1, 1, 1, 0.8
+#        Ellipse:
+#            size: self.size
+#            pos: self.pos
+        Ellipse:
+            size: self.width, self.height * self.velocity_y / 12.5
+            pos: self.pos
+            source: self.source
+
+    canvas.after:
+        PopMatrix
+
+<Missile>:
+    canvas:
+        Color:
+            rgba: 1, 1, 1, 1
+        Rectangle:
+            size: self.size
+            pos: self.center[0] - self.size[0] / 2.0, self.center[1] - self.size[1] / 2.0
+            source: self.source
+
+<Chicken>:
+    size: 200 + 400 * self.boss, 200 + 400 * self.boss
+
+    canvas.before:
+        Color:
+            rgba: 0.6 + (self.hp / (self.bhp * 1.0)) / 2.0, 0.6 + (self.hp / (self.bhp * 1.0)) / 2.0, 0.6 + (self.hp / (self.bhp * 1.0)) / 2.0, 1
+
+        PushMatrix
+        Rotate:
+            angle: -5 + self.a * 5
+            axis: 0, 0, 1
+            origin: self.x + 70, self.y + 70
+
+        Rectangle:
+            size: 125, 125
+            pos: self.x + 70, self.y + 70
+            source: 'source/wing1.png'
+        PopMatrix
+
+        PushMatrix
+        Rotate:
+            angle: -(-5 + self.a * 5)
+            axis: 0, 0, 1
+            origin: self.x + 70 + 60, self.y + 70
+
+        Rectangle:
+            size: -125, 125
+            pos: self.x + 70 + 60, self.y + 70
+            source: 'source/wing1.png'
+        PopMatrix
+
+    canvas:
+        Ellipse:
+            pos: self.pos
+            size: self.size
+            source: self.source
+
+
+<Spaceship>:
+    canvas.before:
+        Color:
+            rgba: 0.4, 0.4, 1, self.shield
+
+        Ellipse:
+            pos: self.pos
+            size: self.size
+    canvas:
+        Color:
+            rgba: 1, 1, 1, 1
+
+        Rectangle:
+            size: self.width / 3.0, -(self.engine * self.size[1] / 2.0)
+            pos: self.center_x - self.width / (3.0 * 2), self.pos[1] + self.size[1] / 5.0
+            source: 'source/fire.png'
+
+        Ellipse:
+            pos: self.pos
+            size: self.size
+            source: 'source/spaceship.png'
+
+        Color:
+            rgba: 1, 100.0 / (self.heat+1), 100.0 / (self.heat+1), 1
+
+        Rectangle:
+            pos: self.parent.width / 100.0 + 200, self.parent.height - self.parent.height / 27.5
+            size: self.heat * 0.95, 10
+
+        Rectangle:
+            pos: self.parent.width / 100.0 + 200, self.parent.height - self.parent.height / 27.5 + 15
+            size: self.heat, 10
+
+        Rectangle:
+            pos: self.parent.width / 100.0 + 200, self.parent.height - self.parent.height / 27.5 + 30
+            size: self.heat * 1.05, 10
+
+
+<Game>:
+    spaceship: spaceship
+
+    canvas.before:
+        Rectangle:
+            id: b1
+            pos: self.b1x, self.b1y
+            size: self.size[0], self.size[1]
+            source: 'source/background.jpg'
+
+        Rectangle:
+            id: b2
+            pos: self.b2x, self.b2y
+            size: self.size[0], -self.size[1]
+            source: 'source/background.jpg'
+
+#       player stats shape
+        Color:
+            rgba: 1, 1, 1, 1
+
+        Rectangle:
+            pos: 0, 0
+            size: self.width / 4.0, self.height / 15.0
+            source: 'source/bar.png'
+
+        Rectangle:
+            pos: 0, self.height
+            size: self.width / 5.0 + 200, -self.height / 20.0
+            source: 'source/empty bar.png'
+
+
+    Spaceship:
+        id: spaceship
+        pos: self.parent.size[0] / 2.0, self.parent.size[1] / 10.0
+        size: self.parent.size[0] / 15.0, self.parent.size[1] / 10.5
+
+
+    Button:
+        size: self.parent.size[0] / 25.0, self.parent.size[1] / 25.0
+        pos: self.parent.width - self.parent.size[0] / 25.0, self.parent.height - self.parent.size[1] / 25.0
+        text: 'X'
+        background_color: 0.8, 0, 0, 1
+        on_press: app.stop()
+
+    Label:
+        pos: 60, -10
+        text: str(self.parent.spaceship.lives)
+        halign: 'right'
+
+    Label:
+        pos: 210, -10
+        text: str(self.parent.spaceship.missiles)
+
+    Label:
+        pos: 350, -10
+        text: str(self.parent.spaceship.power)
+
+    Label:
+        pos: 490, -10
+        text: str(self.parent.spaceship.food)
+
+    Label:
+        pos: 10, 1540
+        size: 200, 50
+        valign: 'top'
+        halign: 'left'
+        text: 'SCORE: ' + str(self.parent.spaceship.score)
+
+
+<MainMenu>:
+    canvas:
+        Rectangle:
+            pos: 0, 0
+            size: self.size
+            source: 'source/background.jpg'
