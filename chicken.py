@@ -20,8 +20,8 @@ class Chicken(Widget):
     egg_rate = 0.001
     eggs = 3
     food = NumericProperty(0)
-    id = 'Chicken'
-    source = StringProperty('source/boss.png')
+    ids = {"Chicken": True}
+    source = StringProperty("source/boss.png")
     boss = BooleanProperty(False)
 
     def update(self, destination=None, direction=None):
@@ -45,7 +45,6 @@ class Chicken(Widget):
     def lay_egg(self):
         if random() < self.egg_rate and self.eggs > 0:
             self.eggs -= 1
-            return Egg(pos=(self.x + self.width / 2 - 20,
-                            self.y))
+            return Egg(pos=(self.x + self.width / 2 - 20, self.y))
         else:
             return None

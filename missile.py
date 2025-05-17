@@ -6,10 +6,7 @@ from weapon import Weapon
 
 class Missile(Weapon):
 
-    source = StringProperty('source/missile.png')
-    id = 'Missile'
+    source = StringProperty("source/missile.png")
+    ids = {"Missile": True}
     power = NumericProperty(30)
     size = 100, 100
-
-
-

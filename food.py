@@ -12,7 +12,7 @@ class Food(Widget):
     amount = NumericProperty(0)
     angle = NumericProperty(0)
     increment = random() * 5 + 1
-    id = 'Food'
+    ids = {"Food": True}
 
     def update(self):
         self.pos = Vector(*self.velocity) + self.pos

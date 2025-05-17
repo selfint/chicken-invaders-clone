@@ -8,7 +8,7 @@ class Egg(Widget):
     velocity_x, velocity_y = NumericProperty(0), NumericProperty(-5)
     velocity = ReferenceListProperty(velocity_x, velocity_y)
 
-    id = 'Egg'
+    ids = {"Egg": True}
 
     def update(self):
         self.pos = Vector(*self.velocity) + self.pos

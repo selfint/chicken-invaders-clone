@@ -7,8 +7,8 @@ from math import atan, pi
 
 class Weapon(Widget):
 
-    kind = StringProperty('')
-    source = StringProperty('source/{}.png'.format(kind))
+    kind = StringProperty("")
+    source = StringProperty("source/{}.png".format(kind))
     power = NumericProperty(1)
     radius = NumericProperty(0)
 
@@ -21,7 +21,7 @@ class Weapon(Widget):
     angle = NumericProperty(0)
     acc = NumericProperty(1.0005)
 
-    id = 'Weapon'
+    ids = {"Weapon": True}
 
     def update(self):
         self.velocity_x *= self.acc
@@ -42,17 +42,17 @@ class Weapon(Widget):
                 self.pos[1] -= self.power * 1
 
     def update_source(self, kind):
-        self.source = 'source/{}.png'.format(kind)
+        self.source = "source/{}.png".format(kind)
         self.kind = kind
-        if kind == 'green' or kind == 'greenb':
+        if kind == "green" or kind == "greenb":
             self.resize(34, 102)
             self.acc = 1.01
 
-        if kind == 'red':
+        if kind == "red":
             self.resize(34, 75)
             self.acc = 1.02
 
-        if kind == 'yellow':
+        if kind == "yellow":
             self.resize(70, 70)
             self.acc = 1
             self.radius = 300 * self.power

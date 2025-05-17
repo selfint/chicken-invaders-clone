@@ -125,8 +125,8 @@ class Game(Widget):
             ),
             size=(self.spaceship.width * 5, self.spaceship.height * 5),
             anim_loop=1,
-            allow_stretch=True,
-            keep_data=False,
+            # allow_stretch=True,
+            # keep_data=False,
             color=(1, 1, 1, 1),
         )
         self.add_widget(self.explosion)
@@ -256,7 +256,7 @@ class Game(Widget):
                 self.remove_widget(shot)
                 self.spaceship.shots.remove(shot)
 
-            if shot.id == "Weapon":
+            if "Weapon" in shot.ids:
                 for chicken in self.level.chickens:
                     dmg = False
                     # if shot.radius > 0:
@@ -275,7 +275,7 @@ class Game(Widget):
                     if dmg:
                         self.damage_chicken(chicken, shot)
 
-            if shot.id == "Missile":
+            if "Missile" in shot.ids:
                 if self.get_center_x() - 100 <= shot.x <= self.get_center_x() + 100:
                     if self.get_center_y() - 100 <= shot.y <= self.get_center_y() + 100:
                         self.remove_widget(shot)
